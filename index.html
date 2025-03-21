@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umsetzung von Arbeitsmarktmaßnahmen – Projektcontrolling</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            background-color: #D3D3D3; /* Hellgrauer Hintergrund */
+            border-bottom: 1px solid #c0c0c0;
+            justify-content: space-between; /* Logo und Überschrift verteilen */
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-image {
+            height: 60px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-image:hover {
+            transform: scale(1.05);
+        }
+
+        .headline-container {
+            flex-grow: 1;
+            text-align: center;
+            padding-right: 20px;
+        }
+
+        .headline {
+            font-size: 28px;
+            color: #333;
+            font-weight: normal;
+        }
+
+        .main-content {
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .header {
+                height: 80px;
+                flex-direction: column;
+                justify-content: center;
+                padding: 10px 20px;
+            }
+
+            .logo-image {
+                height: 45px;
+            }
+
+            .headline-container {
+                padding-right: 0;
+                padding-top: 5px;
+            }
+
+            .headline {
+                font-size: 22px;
+            }
+        }
+
+        /* Checklist Table Styles */
+        .checklist-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .checklist-table th, .checklist-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .checklist-table th {
+            background-color: #f2f2f2; /* Hellgrauer Hintergrund für Überschriften */
+            font-weight: bold;
+        }
+
+        .checklist-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* Hellgrauer Hintergrund für gerade Zeilen */
+        }
+
+        .checklist-table tbody tr:hover {
+            background-color: #e0e0e0; /* Hover-Effekt für Zeilen */
+        }
+
+        /* Hauptkategorie (erster Eintrag mit Spaltenreichweite) */
+        .checklist-table tr.category {
+            background-color: #e0e0e0; /* Grauer Hintergrund */
+            font-weight: bold;
+        }
+
+        .checklist-table tr.category td {
+            font-weight: bold;
+            background-color: #e0e0e0; /* Dunklerer Hintergrund für Hauptkategorien */
+            padding: 10px 8px; /* Etwas mehr Abstand */
+        }
+
+        /* Copyright-Zeile */
+        .checklist-table tr.copyright td {
+            font-style: italic;
+            color: #666;
+            border-top: 2px solid #999;
+        }
+
+        /* Stil für die X-Einträge */
+        .x-marker {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Sticky Header fix */
+        .checklist-table thead tr {
+            position: sticky;
+            top: 0;
+            z-index: 1; /* Ensure header is above content */
+            background-color: #f2f2f2; /* Match header background color */
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="https://cdn.jsdelivr.net/gh/Thimeus/BBB@main/logo_bbb_1.png" alt="Berufliche Bildung Bremerhaven Logo" class="logo-image">
+        </div>
+        <div class="headline-container">
+            <h1 class="headline">Umsetzung von Arbeitsmarktmaßnahmen – Projektcontrolling</h1>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div id="checklist-container">
+            <!-- Die Tabelle wird hier dynamisch eingefügt -->
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const logo = document.querySelector('.logo-image');
+
+            // Fallback, falls das Logo nicht geladen wird
+            logo.onerror = function() {
+                console.error('Logo failed to load');
+                const alternativeUrl = "https://cdn.jsdelivr.net/gh/Thimeus/BBB/logo_bbb_1.png";
+                if (logo.src !== alternativeUrl) {
+                    console.log('Trying alternative jsDelivr URL format...');
+                    logo.src = alternativeUrl;
+                    return;
+                }
+                const logoContainer = document.querySelector('.logo-container');
+                logoContainer.innerHTML = `
+                    <div style="display: flex; flex-direction: column;">
+                        <div>
+                            <span style="color: #6b6557; font-size: 28px; font-weight: bold;">BERUFLICHE</span>
+                            <span style="color: #ff8533; font-size: 28px; font-weight: bold;"> BILDUNG</span>
+                        </div>
+                        <div style="color: #6b6557; font-size: 16px; letter-spacing: 2px;">BREMERHAVEN</div>
+                    </div>
+                `;
+            };
+
+            logo.onload = function() {
+                console.log('Logo loaded successfully via jsDelivr');
+            };
+
+            // CSV-Daten für die Tabelle mit X-Einträgen
+            const csvData = `Checkliste Projektcontrolling / Team:;;Jan.;Feb.;Mär;Apr;Mai;Jun;Jul;Aug;Sep;Okt;Nov;Dez;Jan;Feb
+Vorbereitende Maßnahmen;;;;;;;;;;;;;;;
+;TN-Erstgespräch/Starter-Paket;X;X;X;X;;;;;;;;X;X;
+;TN-Eingangstests/PSY/Schule/Soz. Päd/;X;X;;X;X;;;;;;;X;;
+;Info an TN über Maßnahme bzw. Ausbildung: Nachweis;X;;X;;X;;;;;;;;X;;
+Start in die Ausbildung / Maßnahmne;;;;;;;;;;;;;;;
+;Akuise der BA , ggf Hospitation von Teilnehmenden;X;X;;;;;;;;;;X;;X;
+;Einladung/Vorbereitung Unterschrift Reha Azubi;X;;;X;;;;;;;;;X;;
+;Einladung/ Maßnahme teilnehmende BvB Reha BvB;;X;;X;;X;;;;;;;;X;
+;BvB / Reha BvB Organisation und Abstimmung Infoveranstaltung;X;;;X;;;;;X;;;;;X;
+;Planungkompetenzanalyse BvB / Reha BvB;;X;;X;;;;;X;X;;;;;
+;Vermittlung Rechte und Pflichten, Auszubildende, / Hausordung;X;;X;;X;;;;X;;;;;;
+;Abgleich Ausbildungsrahmenplan Pläne aktueller Stand;;X;;;X;X;;;;;;;X;;
+Zielvereinbarungen und Standortbestimmung;;;;;;;;;;;;;;;
+;Standortbestimmungsgespräche mit TN/Selbsteinschätzung;X;;X;;;X;;;;X;;;;X;
+;Individuelle Zielvereinbarungen erstellen;;X;;;X;;;;;;X;X;;;
+;Überprüfung der Zielvereinbarung;;;X;X;;;;;X;;X;;;;
+;Abgleich: Planung und Ziel hinsichtlich Praktika oder Ausbildung;X;;X;;;;X;;;X;;;;;
+Förderung und Unterstützung;;;;;;;;;;;;;;;
+;Förderplanung/LuV;;X;;X;;;;;;X;X;X;;;
+;Probezeitgespräch bei Auszubildende;X;;;;X;X;;;;;;X;X;;
+;Dokumentation in idb / Kommunikation BA;X;X;X;;;;X;;;;;;X;;
+;Sozialkompetenztraining Fit for Life/Umsetzung;;X;;X;;;;X;;X;;;;;
+;Bewerbungsunterlagen für TN erstellt;X;;;;X;;X;;;X;;;;;
+;Praktikumsplanung;;X;;X;;X;;;X;;;;;;
+;Stütz- und Förderunterricht/4 Std./Woche;X;;X;;;X;;;X;;;X;;;
+Kommunikation und Dokumentation;;;;;;;;;;;;;;;
+;Betriebsbesuche und Kontakte/Dokumentation;X;X;;;;X;;;X;;X;;;;
+;Team Kommunikation – intern/Dokumentation Server;X;X;X;;X;;;;X;;;;;;
+;Dokumentation von Ausbildungsinhalt und Berichtsheft;X;;X;;X;;;;X;;X;;;;
+;Kontakt zur Berufsschule → TN;;X;;;X;X;;;X;;;;;;
+;Kontakt zur BA/Dokumentation;X;;X;;X;;X;;X;;;;;;
+;Kontakt zur Berufsschule Anzahl TN-neu ORGA;;X;;X;;;;X;;;X;;;;
+Controlling und Interventionsmaßnahmen;;;;;;;;;;;;;;;
+;Fehlzeiten der TN/AZUBI Controlling (%) BvB > 20% Abbruch;X;X;X;X;X;X;X;X;X;X;X;X;X;X;
+;Gefahr von Ausbildungsabbrüchen / Interventionskette;;X;;X;;;X;;;X;X;;;;
+;Prüfung/Zwischenprüfung ORGA/Ergebnis;X;;;X;;;;;X;;;X;X;;
+;Teilnahmenachweis bei Ende/Abschluss/ Austritt;;X;;X;;;X;;;;X;;;X;
+Übergang und Anschlussmaßnahmen;;;;;;;;;;;;;;;
+;Überleitung in Betrieb prüfen;X;;;X;;;X;;;;;X;;;
+;Überleitung in Ausbildung prüfen (BvBs);;X;;X;;X;;;;;;;X;;
+;Übergang in Arbeit prüfen;X;;X;;X;;X;;;;;;;X;
+;Übergang in Schule prüfen;;X;;X;;X;;X;;;;;;X;
+Zusatzmaßnahmen und Veranstaltungen;;;;;;;;;;;;;;;
+;Lehrgangsfahrt/Kennlernfahrt/Okt./Nov.;;;;;;;;;X;X;;;;;
+Arbeitssicherheit;;;;;;;;;;;;;;;
+;Brandschutz mindestens einmal im Jahr inkl. Übung;;;;;;X;;;;;;;X;;
+;Sicherheitsunterweisung / Maschinen und Geräte  TN / MA;X;X;;;;;;;X;;;;;;
+;Unterweisung Infektionsschutzgesetz;;X;;X;;;;;;X;;;;;
+;Sanitätsraum/Erste-Hilfe-/ Beauftragte;X;;;;X;;;;X;;;;;;
+;Ausstattung (PC, Internet ect.);X;;X;;;;X;;;;X;;;;
+;Räumlichkeiten / Reinigung / etc.;X;X;X;X;X;X;X;X;X;X;X;X;X;X;
+;Einkleidung von TN und MA;;X;;X;;X;;;;;;X;;;
+QM;;;;;;;;;;;;;;;
+;Projektordner/Padlet;X;X;;;X;;;X;;;X;;;;
+;Organigramm der Maßnahme;;X;;X;;;;X;;;X;;;;
+;Vertretungsregeln als Übersicht;X;;X;;;;X;;;X;;;;;
+;Kurshefte und Klassenbücher: Themen und Unterschrift;X;X;X;X;X;X;X;X;X;X;X;X;X;;
+;Team-Meeting und Protokolle;X;X;X;X;X;X;X;X;X;X;X;X;X;X;
+;TN-Befragung 1-2 × Jahr;;;;;;X;;;;;;X;X;;
+;Feedbackbogen nach Ende der Maßnahme;;;;;X;;;;;;X;X;;X;
+;Wochenplanung (Aushang)/Abgleich Ausbildungsrahmenplan);X;X;X;X;X;X;X;X;X;X;X;X;X;X;
+;Datenschutz/Unterweisung;X;X;;;;;;X;;;;;X;;
+;Maßnahmen und Ziele für alle transparent;X;;X;;;;X;;;;;X;X;;
+;Team-Qualitätsziele (auswerten, planen, entwicklen);;X;;X;;;;X;;;;;X;;
+Fortbildung;;;;;;;;;;;;;;;
+;Erste-Hilfe-Kurs/Mitarbeiter:innen /Standort;X;;;;;X;;;;X;;;;;
+;Fit for Life für Soz. Päd.;;;X;;X;;;;;;X;;;;
+;Gewaltprävention;X;;;;;X;;;X;;;;;;
+;Mobbing/Cybermobbing;;X;;X;;;;;;X;;;;X;
+;Fortbildung / idb / Datenschutz;;;X;;X;;;;;;X;;;X;
+;Sonstiges;X;;;X;;;X;;X;;X;;;
+Personal;;;;;;;;;;;;;;;
+;Bericht aus PK und Netzwerk;X;X;X;X;X;X;X;X;X;X;X;X;X;;
+;Urlaubsplanung;X;;X;;;;X;;;X;;X;;;
+;Abwesenheit/Vertretung- Regel;X;X;;;X;;X;;;X;;X;;;
+;Vakanz / Start von Mitarbeitern;;X;;;;X;;;;X;;;;X;
+;MA Gesundheit / BGM;;;X;;X;;X;;;;X;;;;
+Projekte nach Aussen;;;;;;;;;;;;;;;
+;Newsletter;;X;;X;;X;;X;;X;;X;;;
+;Social Media;X;;X;;X;;X;;X;;X;;;;
+;BBB / Arbeitsmarkt / Projekt Info;;X;;X;;X;;X;;X;;X;;;
+
+
+© 2025 Berufliche Bildung Bremerhaven;;;;;;;;;;;;;;;`;
+
+            const checklistContainer = document.getElementById('checklist-container');
+            const table = document.createElement('table');
+            table.className = 'checklist-table';
+            checklistContainer.appendChild(table);
+
+            // Tabellenkopf erstellen
+            const thead = table.createTHead();
+            const headerRow = thead.insertRow();
+            const headers = csvData.split('\n')[0].split(';'); // Erste Zeile für die Überschriften
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.textContent = headerText || ''; // Leere Strings für leere Überschriften
+                headerRow.appendChild(th);
+            });
+
+            // Tabellenkörper erstellen
+            const tbody = table.createTBody();
+            const lines = csvData.split('\n').slice(1); // Überschrift überspringen
+
+            lines.forEach((line, index) => {
+                const columns = line.split(';');
+                const row = tbody.insertRow();
+
+                // Prüfen, ob es sich um eine Hauptkategorie handelt (kein Semikolon am Anfang)
+                const isMainCategory = columns[0].trim() !== '' && columns[1].trim() === '';
+                const isCopyright = columns[0].trim().startsWith('©');
+
+                if (isMainCategory) {
+                    row.className = 'category';
+                } else if (isCopyright) {
+                    row.className = 'copyright';
+                }
+
+                // Zellen für jede Spalte erstellen
+                for (let i = 0; i < headers.length; i++) {
+                    const cell = row.insertCell();
+
+                    // Ab der dritten Spalte (Index 2) können die "X"-Markierungen sein
+                    if (i >= 2 && columns[i] === 'X') {
+                        cell.textContent = 'X';
+                        cell.className = 'x-marker';
+                    } else {
+                        cell.textContent = columns[i] || '';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
